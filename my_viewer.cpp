@@ -51,30 +51,6 @@ int factorial(int x)
 	return result;
 }
 
-GsPnt2 eval_bezier(float t, const GsArray<GsPnt2>& P)
-{
-	int n = P.size() - 1;
-	for (int i = 0; i < n; i++) {
-		float C = factorial(n) / ((factorial(i))*(factorial(n-i)));
-		P[i] = C*(t^i)*(1 - (t ^ (n - i)) );
-	}
-}
-
-GsPnt2 eval_bspline(float t, int k, const GsArray<GsPnt2>& P)
-{
-
-}
-
-GsPnt2 crspline(float t, const GsArray<GsPnt2>& P)
-{
-
-}
-
-GsPnt2 bospline(float t, const GsArray<GsPnt2>& P)
-{
-
-}
-
 void MyViewer::build_ui ()
 {
 	UiPanel *p;
@@ -93,8 +69,15 @@ void MyViewer::build_ui ()
 // Use one function for each curve type. Feel free to update/adapt parameter list etc.
 static GsPnt2 eval_curveX ( float t, const GsArray<GsPnt2>& P )
 {
-	GsPnt2 point = P[0]*(1.0f-t) + P.top()*t; // add the correct equations here
+	// GsPnt2 point = P[0]*(1.0f-t) + P.top()*t; // add the correct equations here
+	/*GsPnt result;
+	int n = P.size() - 1;
+	for (int i = 0; i < n; i++) {
+		GsPnt2 point1 = P[n] * (pow((double)t, (double)i)) * (pow((double)(1-t), (double)(n-i))) ;
+		GsPnt2 result = result + point1;
+	}*/
 
+	GsPnt2 point = P[0] * (1 - t) * (1 - t) * (1 - t) + P[1] * 3 * t * (1 - t) * (1 - t) + P[2] * 3 * t * t * (1 - t) + P.top()*t*t*t;
 	return point;
 }
 
