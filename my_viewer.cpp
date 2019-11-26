@@ -67,17 +67,16 @@ void MyViewer::build_ui ()
 }
 
 // Use one function for each curve type. Feel free to update/adapt parameter list etc.
-static GsPnt2 eval_curveX ( float t, const GsArray<GsPnt2>& P )
+static GsPnt2 eval_curveX ( float t, const GsArray<GsPnt2>& P ) // bezier
 {
 	// GsPnt2 point = P[0]*(1.0f-t) + P.top()*t; // add the correct equations here
-	/*GsPnt result;
+	GsPnt point, point1;
 	int n = P.size() - 1;
 	for (int i = 0; i < n; i++) {
-		GsPnt2 point1 = P[n] * (pow((double)t, (double)i)) * (pow((double)(1-t), (double)(n-i))) ;
-		GsPnt2 result = result + point1;
-	}*/
-
-	GsPnt2 point = P[0] * (1 - t) * (1 - t) * (1 - t) + P[1] * 3 * t * (1 - t) * (1 - t) + P[2] * 3 * t * t * (1 - t) + P.top()*t*t*t;
+		point1 = P[i] * (gs_fact(n)/(gs_fact(i)*gs_fact(n-i))) * (gs_pow(t, i)) * (gs_pow((1-t), (n-i))) ;
+		point = point + point1;
+	}
+	point = point + P.top()*gs_pow(t, n);
 	return point;
 }
 
